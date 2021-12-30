@@ -21,11 +21,17 @@
 title: ITComNetworks
 email: itcomnetworks@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  This website is created to share technologies.
+  This website is created to share.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://itcomnetworks.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: ITComNetworks
 github_username:  ITComNetworks
+
+
+title-logo: /images/title-image
+
+# Author is the default for posts
+# author: Van Dai
 
 # Build settings
 # Removed minima theme as it is now a regular theme.

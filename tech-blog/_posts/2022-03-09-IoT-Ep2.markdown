@@ -4,6 +4,8 @@ title:  "IoT-Ep2 | Gửi dữ liệu cảm biến lên Thingspeak"
 date:   2022-03-09 00:00:00 +0300
 category: Tech
 image: /tech-blog/assets/image2.jpg
+comments: false
+tags: [IoT, Thingspeak]
 ---
 
 Thingspeak - một trong những nền tảng Internet vạn vật (IoT Platform) cho phép lưu trữ và quản lý dữ liệu IoT.

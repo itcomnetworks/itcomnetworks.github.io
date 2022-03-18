@@ -4,6 +4,8 @@ title:  "IoT - Ep 1 | NodeMCU+DHT22 đọc nhiệt độ và độ ẩm"
 date:   2022-03-07 00:00:00 +0300
 category: Tech
 image: /tech-blog/assets/nasa.jpg
+comments: true
+tags: [IoT, NodeMCU, DHT22]
 ---
 Để làm quen các ứng dụng Internet vạn vật (IoT), trong bài viết này chúng ta cùng đi làm quen với mô-đun NodeMCU và cảm biến DHT22 cho đọc nhiệt độ và độ ẩm.
 

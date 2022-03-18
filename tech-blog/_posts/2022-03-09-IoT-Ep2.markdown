@@ -4,7 +4,7 @@ title:  "IoT-Ep2 | Gửi dữ liệu cảm biến lên Thingspeak"
 date:   2022-03-09 00:00:00 +0300
 category: Tech
 image: /tech-blog/assets/image2.jpg
-comments: false
+comments: true
 tags: [IoT, Thingspeak]
 ---
 

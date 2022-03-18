@@ -28,7 +28,8 @@ twitter_username: ITComNetworks
 github_username:  ITComNetworks
 youtube_username: ITComNetworks
 
-disqus.shortname: itcomnetworks-github-io
+disqus:
+  shortname: itcomnetworks-github-io
 
 copyright: "ITComNetworks"
 

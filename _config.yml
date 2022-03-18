@@ -21,21 +21,27 @@
 title: ITComNetworks
 email: itcomnetworks@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  ITComNetworks specialize on Info-TeleComunication Networks providing communication solutions for various applications in our life. 
+  ITComNetworks chia sẻ giải pháp và ứng dụng Công nghệ thông tin viễn thông và các hệ thống thông tin liên lạc trong đời sống.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://itcomnetworks.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: ITComNetworks
 github_username:  ITComNetworks
+youtube_username: ITComNetworks
+
+disqus.shortname: itcomnetworks-github-io
 
 copyright: "ITComNetworks"
 
 # title-logo is new field displayed instead of custom text.
 # Ideally, image is 50px high and take up minimal horizontal space.
 # titel-logo: /images/title-logo.png (JPEG or PNG, etc.)
-title-logo: /images/title-image.png
+title-logo: /images/title-logo.png
 
 # Author is the default for posts
 # author: Van Dai
+
+# Only get the first sentence for the excerpt
+excerpt_separator: .
 
 # Build settings
 # Removed minima theme as it is now a regular theme.

@@ -1,0 +1,29 @@
+<section class="feed">
+    {%- for post in site.posts -%}
+    {%- if post.category=="Tech" -%}
+      <div class="feed-card">
+        <div class="card-image">
+          {%- assign postImage = post.image | relative_url -%}
+          {%- if postImage -%}
+            <a href="{{ post.url }}"><img src="{{postImage}}" alt="" class="featured-image"></a>
+          {%- endif -%}
+        </div>
+        <div class="card-content">
+          <div class="card-title">
+            {%- assign postTitle = post.title | escape -%}
+            <span class="title"><a href="{{ post.url }}" class="post-link">{{postTitle}}</a></span>
+          </div>
+          <div class="excerpt">
+            {%- assign postExcerpt = post.excerpt | strip_html | escape -%}
+            <span class="excerpt">{{postExcerpt}}</span>
+          </div>
+          <div class="card-date">
+            {%- assign postDate = post.date | date: "%b %d, %Y" -%}
+            <span class="date">{{postDate}}</span>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+    {%- endfor -%}
+</section>
+

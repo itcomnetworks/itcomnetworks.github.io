@@ -1,0 +1,100 @@
+---
+layout: post
+title:  "IoT - Ep 1 | NodeMCU+DHT22 đọc nhiệt độ và độ ẩm"
+date:   2022-03-07 00:00:00 +0300
+category: Tech
+image: /tech-blog/assets/nasa.jpg
+---
+Để làm quen các ứng dụng Internet vạn vật (IoT), trong bài viết này chúng ta cùng đi làm quen với mô-đun NodeMCU và cảm biến DHT22 cho đọc nhiệt độ và độ ẩm.
+
+<p align="center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/EfuIxwY--uk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</p>
+
+# Mục lục
+1. [Giới thiệu](#Section1)
+2. [Yêu cầu cài đặt](#Section2)
+3. [Thư viện sử dụng cảm biến DHT22](#Section3)
+4. [Kết nối và lập trình](#Section4)
+5. [Kết luận](#Section5)
+6. [Tài liệu tham khảo](#Section6)
+
+
+## 1. Giới thiệu <a name="Section1"></a>
+Hiện nay, chúng ta có thể thấy sự phổ biến của các ứng dụng Internet vạn vật này một tăng. Việc trang bị cảm biến theo dõi môi trường từ xa không còn là một trở ngại lớn nữa. Sự phát triển của công nghệ thông tin và hệ thống viễn thông đã thúc đẩy mạnh sự phát triển của nhiều loại hình dịch vụ và tiện ích khác nhau.
+
+Mở đầu cho một series về IoT cơ bản, bài viết này sẽ giới thiệu một ứng dụng đơn giản về việc sử dụng mô-đun NodeMCU và cảm biến DHT22 để đo nhiệt độ và độ ẩm tương đối. Ở đây, chúng ta sẽ tìm hiểu cách cài đặt Arduino IDE để lập trình cho mô-đun NodeMCU, và thêm thư viện vào Arduino IDE cho sử dụng cảm biến DHT22.
+
+**Mô-đun NodeMCU là gì?** NodeMCU (Hình 1) là một nền tảng dựa trên Wi-Fi chip ESP8266 được sử dụng để tạo ra các thiết bị Internet vạn vật, Internet of Things (IoT). Mô-đun có thể gửi và nhận thông tin đến mạng cục bộ hoặc Internet qua Wi-Fi. Hiện nay, NodeMCU là một trong những mô-đun có giá thành rẻ và phổ biến  cho các nhà phát triển ứng dụng thông minh hay IoT.
+<p align="center">
+  <img alt="NodeMCU" src="/tech-blog/assets/NodeMCU.jpeg" style="zoom:80%">
+  <br>
+    <em>Hình 1. Sơ đồ Pinout của NodeMCU</em>
+</p>
+
+Tiếp theo, chúng ta sẽ xem cách sử dụng Arduino IDE cho lập trình NodeMCU đọc thông tin cảm biến DHT22.
+
+## 2. Yêu cầu cài đặt <a name="Section2"></a>
+Trước hết, chúng ta cần có chương trình phần mềm, thư viện lập trình và các thiết bị phần cứng.
+- [Arduino IDE](https://www.arduino.cc/) - môi trường lập trình dành cho phần cứng, thiết bị nhúng như Arduino, ESP, và cả NodeMCU. Phần mềm Arduino IDE là một chương trình mã nguồn mở giúp chúng ta dễ dàng viết code và upload vào mô-đun điều khiển.
+- [ESP8266-Arduino](https://github.com/esp8266/Arduino) - thư viện lập trình ESP8266 trên môi trường Arduino IDE.
+
+Để cài đặt thư viện lập trình ESP8266, chúng ta mở cửa sổ **Preferences** của Arduino IDE, sau đó dán link ```https://arduino.esp8266.com/stable/package_esp8266com_index.json``` vào trường quản lý URLs qua Preferences -> Additional Boards Manager URLs.
+<p align="center">
+  <img alt="Arduino Preferences" src="/tech-blog/assets/Arduino.png" style="zoom:70%">
+  <br>
+    <em>Hình 2. Cửa sổ Preferences của Arduino</em>
+</p>
+
+Tiếp theo mở cửa sổ quản lý thiết bị bằng cách nhấn vào *Tools --> Board --> Board Manager*. Nhập tìm kiếm **ESP8266**, sau đó nhấn vào **Install** để cài đặt thư viện lập trình cho mô-đun NodeMCU. Sau khi cài đặt hoàn tất, chúng ta nhấn **Close** để đóng cửa sổ lại.
+<p align="center">
+  <img alt="Board Manager" src="/tech-blog/assets/BoardsManage.png" style="zoom:70%">
+  <br>
+    <em>Hình 3. Cửa sổ quản lý thiết bị</em>
+</p>
+Bây giờ, bạn có thể vào *Tools --> Board --> Sau đó kéo xuống chọn ESP8266 Boards --> Click chọn NodeMCU 0.9 hoặc 1.x*. Như vậy Arduino IDE đã được cài đặt và sẵn sàng cho chúng ta viết code lập trình cho mô-đun.
+
+### 3. Thư viện sử dụng cảm biến DHT22 <a name="Section3"></a>
+Tiếp theo chúng ta có thể sử dụng thư viện có sẵn để sử dụng cảm biến DHT22. Từ Arduino IDE, chúng ta cũng có thể quản lý các thư viện như tải về hay xoá các thư viện cần thiết . Để thêm thư viện ta nhấn vào *Sketch --> Include Library --> Manage Libraries*. Trong ô tìm kiếm, chúng ta gõ **DHT sensor**, kéo xuống thư viện tên **DHT sensor library** được phát triển bới **Adafruit**, rồi nhấn vào **Install** để cài đặt thư viện. Nếu 1 số thư viện phụ thuộc khác mà chưa được cài đặt, thì sẽ xuất hiện cửa sổ hỏi bạn có cài đặt không. Chúng ta sẽ nhấn **Install all** để cài đặt tất cả. Nhấn **Close** để đóng cửa sổ quán lý thư viện trên Arduino.
+<p align="center">
+  <img alt="Library Manager" src="/tech-blog/assets/LibManager.png" style="zoom:70%">
+  <br>
+    <em>Hình 4. Cửa sổ quản lý thư viện</em>
+</p>
+
+### 4. Kết nối và lập trình <a name="Section4"></a>
+Cảm biến DHT22 có thể kết nối tới NodeMCU theo như Hình 5.
+<p align="center">
+  <img alt="Library Manager" src="/tech-blog/assets/NodeMCU_DHT.png" style="zoom:50%">
+  <br>
+    <em>Hình 5. Cửa sổ quản lý thư viện</em>
+</p>
+
+Trở lại cửa sổ chương trình Arduino IDE, chúng ta có thể mở 1 ví dụ trong thư viện được tải về. Chúng ta nhấn vào File --> Examples --> DHT Sensor library --> Nhấn chọn **DHTtester**. Chúng ta sẽ sử dụng ví dụ này để kiếm tra dữ liệu cảm biến.
+Trong phần code này, các bạn tìm tới phần **#define DHTPIN** để khai báo rằng chân tín hiệu của cảm biến được nối tới chân nào của mô-đun NodeMCU. Ở ví dụ này, mình nối chân tín hiệu của cảm biến tới pin **D2**.
+<p align="center">
+  <img alt="DHT tester" src="/tech-blog/assets/DHT_sketch.png" style="zoom:50%">
+  <br>
+    <em>Hình 6. Ví dụ Sketch đọc cảm biến</em>
+</p>
+
+Để kiểm tra code, chúng ta có thể nhấn vào **Verify** để biên dịch chương trình và kiểm tra lỗi.
+
+Để tải chương trình lên vi điều khiển, trước hết chúng ta cần kiểm tra xem mô-đun kết nối tới máy tính qua cổng serial nào. Các bạn nhấn vào *Tools --> Kéo xuống Port --> và chọn cổng COM* kết nối từ NodeMCU.
+Tiếp theo chúng ta có thể nhấn vào **Upload**, chương trình sẽ được biên dịch và được tải lên vi điều khiển.
+Sau khi hoàn tất việc tải chương trình,  chúng ta nhấn vào **Serial Monitor** để xem thông tin cảm biến được in ra màn hình.
+
+<p align="center">
+  <img alt="Serial Monitor" src="/tech-blog/assets/SerialMonitor.png" style="zoom:50%">
+  <br>
+    <em>Hình 7. Cửa sổ Serial Monitor</em>
+</p>
+
+### 5. Kết luận <a name="Section5"></a>
+Tới đây, chúng ta đã hoàn thành các bước để cài đặt phầm mềm và phần cứng trong sử dụng mô-đun NodeMCU với cảm biến DHT22 để đo nhiệt độ và độ ẩm.
+Từ ví dụ này, chúng ta có thể phát triển thêm như gửi dữ liệu thu được lên cloud. Từ đó ta có thể truy cập và theo dõi từ xa qua Internet. Ví dụ như iện nay có nhiều nền tảng điện toán như Thingspeak, Dashboards, MS Azure, Amazon Web Service, để quản lý và lưu trữ liệu từ thiết bị IoT.
+
+### 6. Tài liệu tham khảo <a name="Section6"></a>
+1. [Arduino IDE](https://www.arduino.cc/)
+2. [ESP8266-Arduino](https://github.com/esp8266/Arduino)
+3. [DHT Sensor](https://github.com/adafruit/DHT-sensor-library)

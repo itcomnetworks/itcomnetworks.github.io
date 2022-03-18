@@ -31,6 +31,8 @@ youtube_username: ITComNetworks
 disqus:
   shortname: itcomnetworks-github-io
 
+google_analytics:  UA-106770753-2
+
 copyright: "ITComNetworks"
 
 # title-logo is new field displayed instead of custom text.

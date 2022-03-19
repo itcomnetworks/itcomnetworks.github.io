@@ -3,9 +3,10 @@ layout: post
 title:  "IoT-Ep3 | Hiển thị và phân tích dữ liệu trên Thingspeak"
 date:   2022-03-12 00:00:00 +0300
 category: Tech
-image: /tech-blog/assets/nasa.jpg
+image: /tech-blog/assets/ThingspeakAccount.png
+tags: [IoT, Thingspeak]
 ---
-Nền tảng Thingspeak cho phép tạo các biểu đồ dữ liệu và sử dụng ngôn ngữ Matlab để viết các script xử lý dữ liệu trên Cloud.
+Trong bài viết này, chúng ta sẽ tìm hiểu các tính năng điều chỉnh biểu đồ dữ liệu và sử dụng ngôn ngữ Matlab để viết các script xử lý dữ liệu trên Thingspeak. Các bạn có thể theo dõi video-demo hoặc bài hướng dẫn dưới đây.
 
 <p align="center">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/Xu68phWUE6Q" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -13,88 +14,125 @@ Nền tảng Thingspeak cho phép tạo các biểu đồ dữ liệu và sử d
 
 # Mục lục
 1. [Giới thiệu](#Section1)
-2. [Yêu cầu cài đặt](#Section2)
-3. [Thư viện sử dụng cảm biến DHT22](#Section3)
-4. [Kết nối và lập trình](#Section4)
-5. [Kết luận](#Section5)
-6. [Tài liệu tham khảo](#Section6)
-
+2. [Điều chỉnh đồ thị](#Section2)
+3. [Các ứng dụng Apps](#Section3)
+4. [Tạo biểu đồ phân bố](#Section4)
+5. [Thêm đồng hồ đo](#Section5)
+6. [Kết luận](#Section6)
+7. [Tài liệu tham khảo](#Section7)
 
 ## 1. Giới thiệu <a name="Section1"></a>
-Hiện nay, chúng ta có thể thấy sự phổ biến của các ứng dụng Internet vạn vật này một tăng. Việc trang bị cảm biến theo dõi môi trường từ xa không còn là một trở ngại lớn nữa. Sự phát triển của công nghệ thông tin và hệ thống viễn thông đã thúc đẩy mạnh sự phát triển của nhiều loại hình dịch vụ và tiện ích khác nhau.
+Ở bài viết IoT-Ep2 trước chúng ta đã xem cách tạo kênh trên Thingspeak để lưu trữ dữ liệu nhiệt độ và độ ẩm thu được từ cảm biến DHT22. Với dữ liệu gửi lên từ mô-đun NodeMCU, chúng ta có được 2 biểu đồ nhiệt độ và độ ẩm theo thời gian.
+Trong bài viết này, chúng ta cùng xem một số tính năng trên Thingspeak, ví dụ như:
+- Điều chỉnh hiển thị đồ thị.
+- Thêm các loại biểu đồ phân tích khác.
+- Và tìm hiểu các Apps được Thingspeak hỗ trợ.
 
-Mở đầu cho một series về IoT cơ bản, bài viết này sẽ giới thiệu một ứng dụng đơn giản về việc sử dụng mô-đun NodeMCU và cảm biến DHT22 để đo nhiệt độ và độ ẩm tương đối. Ở đây, chúng ta sẽ tìm hiểu cách cài đặt Arduino IDE để lập trình cho mô-đun NodeMCU, và thêm thư viện vào Arduino IDE cho sử dụng cảm biến DHT22.
-
-**Mô-đun NodeMCU là gì?** NodeMCU (Hình 1) là một nền tảng dựa trên Wi-Fi chip ESP8266 được sử dụng để tạo ra các thiết bị Internet vạn vật, Internet of Things (IoT). Mô-đun có thể gửi và nhận thông tin đến mạng cục bộ hoặc Internet qua Wi-Fi. Hiện nay, NodeMCU là một trong những mô-đun có giá thành rẻ và phổ biến  cho các nhà phát triển ứng dụng thông minh hay IoT.
+## 2. Điều chỉnh đồ thị <a name="Section2"></a>
+Với mỗi đồ thị dữ liệu từ các trường dữ liệu, Thingspeak cho phép chúng ta có thể điều chỉnh hiển thị ngay trên Website. Để mở cửa sổ tuỳ chỉnh đồ thị, chúng ta nhấn vào biểu tượng chiếc bút ở trên cửa sổ đồ thị (Hình 1).
 <p align="center">
-  <img alt="NodeMCU" src="/tech-blog/assets/NodeMCU.jpeg" style="zoom:80%">
+  <img alt="Edit bieu do" src="/tech-blog/assets/EditBieuDo.png" style="zoom:50%">
   <br>
-    <em>Hình 1. Sơ đồ Pinout của NodeMCU</em>
+    <em>Hình 1. Chọn điều chỉnh biểu đồ</em>
 </p>
 
-Tiếp theo, chúng ta sẽ xem cách sử dụng Arduino IDE cho lập trình NodeMCU đọc thông tin cảm biến DHT22.
-
-## 2. Yêu cầu cài đặt <a name="Section2"></a>
-Trước hết, chúng ta cần có chương trình phần mềm, thư viện lập trình và các thiết bị phần cứng.
-- [Arduino IDE](https://www.arduino.cc/) - môi trường lập trình dành cho phần cứng, thiết bị nhúng như Arduino, ESP, và cả NodeMCU. Phần mềm Arduino IDE là một chương trình mã nguồn mở giúp chúng ta dễ dàng viết code và upload vào mô-đun điều khiển.
-- [ESP8266-Arduino](https://github.com/esp8266/Arduino) - thư viện lập trình ESP8266 trên môi trường Arduino IDE.
-
-Để cài đặt thư viện lập trình ESP8266, chúng ta mở cửa sổ **Preferences** của Arduino IDE, sau đó dán link ```https://arduino.esp8266.com/stable/package_esp8266com_index.json``` vào trường quản lý URLs qua Preferences -> Additional Boards Manager URLs.
+Sau khi có được cửa sổ tuỳ chỉnh (Hình 2), chúng ta có thể điền các thông tin và tuỳ chỉnh đồ thị. Ví dụ cho biểu đồ nhiệt độ, tiêu đề có thể là **Đồ thị nhiệt độ**. Tiếp theo, chúng ta cũng có thể thay đổi tên các trục **Ox** - **Thời gian** và **Oy** - **Nhiệt độ, °C**. Trong phần tuỳ biến, chúng ta cũng có thể tuỳ chỉnh để hiển thị giá trị trung bình hoặc tổng các giá trị trong khoảng thời gian xem xét. Ngoài ra, chúng ta cũng chọn khoảng giá trị nhiệt độ từ 0 tới 60.
 <p align="center">
-  <img alt="Arduino Preferences" src="/tech-blog/assets/Arduino.png" style="zoom:70%">
+  <img alt="Edit bieu do" src="/tech-blog/assets/FieldOptions.png" style="zoom:40%">
   <br>
-    <em>Hình 2. Cửa sổ Preferences của Arduino</em>
+    <em>Hình 2. Lựa chọn tuỳ chỉnh hiển thị đồ thị</em>
 </p>
 
-Tiếp theo mở cửa sổ quản lý thiết bị bằng cách nhấn vào *Tools --> Board --> Board Manager*. Nhập tìm kiếm **ESP8266**, sau đó nhấn vào **Install** để cài đặt thư viện lập trình cho mô-đun NodeMCU. Sau khi cài đặt hoàn tất, chúng ta nhấn **Close** để đóng cửa sổ lại.
+Tương tự với đồ thị độ ẩm, chúng ta nhận được như Hình 3 sau khi điều chỉnh.
 <p align="center">
-  <img alt="Board Manager" src="/tech-blog/assets/BoardsManage.png" style="zoom:70%">
+  <img alt="Edit bieu do" src="/tech-blog/assets/DoThi.png" style="zoom:40%">
   <br>
-    <em>Hình 3. Cửa sổ quản lý thiết bị</em>
-</p>
-Bây giờ, bạn có thể vào *Tools --> Board --> Sau đó kéo xuống chọn ESP8266 Boards --> Click chọn NodeMCU 0.9 hoặc 1.x*. Như vậy Arduino IDE đã được cài đặt và sẵn sàng cho chúng ta viết code lập trình cho mô-đun.
-
-### 3. Thư viện sử dụng cảm biến DHT22 <a name="Section3"></a>
-Tiếp theo chúng ta có thể sử dụng thư viện có sẵn để sử dụng cảm biến DHT22. Từ Arduino IDE, chúng ta cũng có thể quản lý các thư viện như tải về hay xoá các thư viện cần thiết . Để thêm thư viện ta nhấn vào *Sketch --> Include Library --> Manage Libraries*. Trong ô tìm kiếm, chúng ta gõ **DHT sensor**, kéo xuống thư viện tên **DHT sensor library** được phát triển bới **Adafruit**, rồi nhấn vào **Install** để cài đặt thư viện. Nếu 1 số thư viện phụ thuộc khác mà chưa được cài đặt, thì sẽ xuất hiện cửa sổ hỏi bạn có cài đặt không. Chúng ta sẽ nhấn **Install all** để cài đặt tất cả. Nhấn **Close** để đóng cửa sổ quán lý thư viện trên Arduino.
-<p align="center">
-  <img alt="Library Manager" src="/tech-blog/assets/LibManager.png" style="zoom:70%">
-  <br>
-    <em>Hình 4. Cửa sổ quản lý thư viện</em>
+    <em>Hình 2. Đồ thị nhiệt độ và độ ẩm</em>
 </p>
 
-### 4. Kết nối và lập trình <a name="Section4"></a>
-Cảm biến DHT22 có thể kết nối tới NodeMCU theo như Hình 5.
+### 3. Các ứng dụng Apps<a name="Section3"></a>
+Ngoài ra, Thingspeak còn hỗ trợ chúng ta tạo ra các ứng dụng khác nhau (Hình 3).
 <p align="center">
-  <img alt="Library Manager" src="/tech-blog/assets/NodeMCU_DHT.png" style="zoom:50%">
+  <img alt="Edit bieu do" src="/tech-blog/assets/ThingspeakApps.png" style="zoom:40%">
   <br>
-    <em>Hình 5. Cửa sổ quản lý thư viện</em>
+    <em>Hình 3. Các Apps được Thingspeak hỗ trợ</em>
 </p>
 
-Trở lại cửa sổ chương trình Arduino IDE, chúng ta có thể mở 1 ví dụ trong thư viện được tải về. Chúng ta nhấn vào File --> Examples --> DHT Sensor library --> Nhấn chọn **DHTtester**. Chúng ta sẽ sử dụng ví dụ này để kiếm tra dữ liệu cảm biến.
-Trong phần code này, các bạn tìm tới phần **#define DHTPIN** để khai báo rằng chân tín hiệu của cảm biến được nối tới chân nào của mô-đun NodeMCU. Ở ví dụ này, mình nối chân tín hiệu của cảm biến tới pin **D2**.
+Các Apps được Thingspeak chia thành 2 nhóm (Hình 4): Phân tích (Analytics) và Hành động (Actions):
+- Nhóm ứng dụng Analytics cho phép ta viết script Matlab để phân tích và vẽ đồ thị, trong nhóm này Thingspeak cũng cho phép tạo ra các plugins được viết với HTML, CSS và Javascript dành cho hiển thị Web.
+- Nhóm Actions cho phép tạo ra các lệnh request giúp ta liên kết với các ứng dụng khác như Twitter, hay chỉ đơn giản là một lệnh HTTP request cho ta điều khiển thiết bị từ xa.
+- Matlab Analysis cho phép chúng ta thực thi code bằng ngôn ngữ Matlab trực tiếp trên Cloud. Sử dụng Matlab, chúng ta có thể phân tích, xử lý dữ liệu cảm biến, và xây dựng các mô hình phân tích dữ liệu. Các script Matlab được liên kết với nhóm Actions, từ đây chúng ta có thể cài tần số script được gọi để thực thi, hoặc được thực thi khi nhận được request.
+- Matlab Visualization cho phép ta sử dụng Matlab để vẽ các biểu đồ hay đồ thị dữ liệu.
+- Sử dụng các Plugins, chúng ta có thể tạo ra các biểu đồ bằng HTML, CSS và Javascirpt. Từ đó bạn có thể nhúng bất kì Plugin nào vào trang Web của bạn.
+- ThingTweet giúp liên kết thiết bị tới tài khoản Twitter và cho phép gửi tin nhắn cảnh báo.
+- TimeControl cho phép chúng ta cài đặt thời gian thực hiện các câu lệnh với Matlab Analysis, ThingTweet và TalkBack.
+- React và TalkBack giúp ta tạo ra các logic hành động dựa trên trên dữ liệu đầu vào thu được.
+- Cuối cùng là ThingHTTP cho phép chúng ta tạo kênh giao tiếp giữa các thiết bị, trang web và dịch vụ web mà không cần phải triển khai giao thức ở cấp thiết bị.  Ở đây chúng ta có thể liên kết với các Actions bằng cách sử dụng các ứng dụng ThingSpeak khác như TweetControl, TimeControl và React.
 <p align="center">
-  <img alt="DHT tester" src="/tech-blog/assets/DHT_sketch.png" style="zoom:50%">
+  <img alt="Edit bieu do" src="/tech-blog/assets/ThingspeakApps2.png" style="zoom:50%">
   <br>
-    <em>Hình 6. Ví dụ Sketch đọc cảm biến</em>
+    <em>Hình 4. Nhóm Analytics và Actions</em>
 </p>
 
-Để kiểm tra code, chúng ta có thể nhấn vào **Verify** để biên dịch chương trình và kiểm tra lỗi.
-
-Để tải chương trình lên vi điều khiển, trước hết chúng ta cần kiểm tra xem mô-đun kết nối tới máy tính qua cổng serial nào. Các bạn nhấn vào *Tools --> Kéo xuống Port --> và chọn cổng COM* kết nối từ NodeMCU.
-Tiếp theo chúng ta có thể nhấn vào **Upload**, chương trình sẽ được biên dịch và được tải lên vi điều khiển.
-Sau khi hoàn tất việc tải chương trình,  chúng ta nhấn vào **Serial Monitor** để xem thông tin cảm biến được in ra màn hình.
-
+### 4. Tạo biểu đồ phân bố <a name="Section5"></a>
+Trở lại với **private view** của kênh, chúng ta sẽ sử dụng **Matlab Visualization** để vẽ các biểu đồ phân bố nhiệt độ và độ ẩm. Để tạo biểu đồ phân bố, chúng ta sẽ vào phần **Matlab Visualization** (Hình 5) và chọn mẫu code để vẽ histogram (Hình 6).
 <p align="center">
-  <img alt="Serial Monitor" src="/tech-blog/assets/SerialMonitor.png" style="zoom:50%">
+  <img alt="Edit bieu do" src="/tech-blog/assets/MatlabVisualization.png" style="zoom:50%">
   <br>
-    <em>Hình 7. Cửa sổ Serial Monitor</em>
+    <em>Hình 5. Chọn Matlab Visualization</em>
 </p>
 
-### 5. Kết luận <a name="Section5"></a>
-Tới đây, chúng ta đã hoàn thành các bước để cài đặt phầm mềm và phần cứng trong sử dụng mô-đun NodeMCU với cảm biến DHT22 để đo nhiệt độ và độ ẩm.
-Từ ví dụ này, chúng ta có thể phát triển thêm như gửi dữ liệu thu được lên cloud. Từ đó ta có thể truy cập và theo dõi từ xa qua Internet. Ví dụ như iện nay có nhiều nền tảng điện toán như Thingspeak, Dashboards, MS Azure, Amazon Web Service, để quản lý và lưu trữ liệu từ thiết bị IoT.
+<p align="center">
+  <img alt="Edit bieu do" src="/tech-blog/assets/MatlabVisualization2.png" style="zoom:40%">
+  <br>
+    <em>Hình 6. Tạo biểu đồ phân bố</em>
+</p>
 
-### 6. Tài liệu tham khảo <a name="Section6"></a>
-1. [Arduino IDE](https://www.arduino.cc/)
-2. [ESP8266-Arduino](https://github.com/esp8266/Arduino)
-3. [DHT Sensor](https://github.com/adafruit/DHT-sensor-library)
+Sau khi nhấn chọn **Create**, chúng ta có được cửa sổ viết Matlab Code (Hình 7). Trong script này, chúng ta có thể đặt tên **Phân bố nhiệt độ**, và chúng ta cũng cần tới **Channel ID**, **Read API Key**, **fieldID**. Ở bên phải của màn hình chúng ta có thông tin của **Channel**, để chương trình có thể truy cập truy xuất và lưu trữ dữ liệu. Ngoài ra, trong phần **Display Settings**, chúng ta có thể chọn hiển thị biểu đồ ở kênh nào và hiển thị ở dạng *Public* hoặc *Private*.
+<p align="center">
+  <img alt="Edit bieu do" src="/tech-blog/assets/MatlabVisualization3.png" style="zoom:50%">
+  <br>
+    <em>Hình 7. Chỉnh sửa Matlab Code</em>
+</p>
+
+Sau khi nhấn **Save and Rung**, biểu đồ được hiển thị ngay dưới Matlab Code (Hình 8).
+<p align="center">
+  <img alt="Edit bieu do" src="/tech-blog/assets/MatlabVisualization4.png" style="zoom:30%">
+  <br>
+    <em>Hình 8. Chạy Matlab Code</em>
+</p>
+
+### 5. Thêm đồng hồ đo
+Tiếp theo, để tạo đồng hồ hiển thị nhiệt độ, chúng ta có thể thêm bằng cách vào phần **Add Widgets**, và chọn mẫu hiển thị đồng hồ **Gauge** (Hình 9-11).
+<p align="center">
+  <img alt="Edit bieu do" src="/tech-blog/assets/MatlabVisualization5.png" style="zoom:30%">
+  <br>
+    <em>Hình 9. Thêm Widgets</em>
+</p>
+<p align="center">
+  <img alt="Edit bieu do" src="/tech-blog/assets/MatlabVisualization6.png" style="zoom:30%">
+  <br>
+    <em>Hình 10. Tạo đồng hồ Gauge</em>
+</p>
+<p align="center">
+  <img alt="Edit bieu do" src="/tech-blog/assets/MatlabVisualization7.png" style="zoom:30%">
+  <br>
+    <em>Hình 11. Tuỳ chỉnh Widgets</em>
+</p>
+
+Tới đây, **Private view** sẽ cho chúng ta thấy được biểu đồ phân bố và đồng hồ cho giá trị nhiệt độ (Hình 12).
+<p align="center">
+  <img alt="Edit bieu do" src="/tech-blog/assets/MatlabVisualization8.png" style="zoom:30%">
+  <br>
+    <em>Hình 12. Biểu đồ phân bố và đồng hồ nhiệt độ</em>
+</p>
+
+### 6. Kết luận
+Có thể thấy rằng, việc sử dụng Matlab giúp chúng ta dễ dàng tuỳ biến trong việc phân tích và xử lý dữ liệu, cũng như vẽ các đồ thị dữ liệu.
+Hiện nay, Matlab là một trong những nền tảng và ngôn ngữ phổ biến cho các ứng dụng tính toán, và được sử dụng trong nhiều lĩnh vực khác nhau. Ngoài ra, sử dụng Matlab cũng cho phép tạo ra có mô hình học máy hay mạng nơ-ron để dự đoán sự thay đổi của dữ liệu trong tương lai.
+Hơn nữa, chúng ta cũng có thể thấy rằng việc vẽ và tuỳ biến đồ thị cũng được hỗ trợ dễ dàng trên Thingspeak, và cho phép tích hợp vào trang web khác một cách dễ dàng.
+
+### 7. Tài liệu tham khảo <a name="Section6"></a>
+- Adruino IDE: [https://www.arduino.cc](https://www.arduino.cc/)
+- ESP8266-Arduino: [https://github.com/esp8266/Arduino](https://github.com/esp8266/Arduino)
+- DHT Sensor Library: [https://github.com/adafruit/DHT-sensor-library](https://github.com/adafruit/DHT-sensor-library)

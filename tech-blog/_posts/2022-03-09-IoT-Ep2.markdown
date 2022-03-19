@@ -3,12 +3,11 @@ layout: post
 title:  "IoT-Ep2 | Gửi dữ liệu cảm biến lên Thingspeak"
 date:   2022-03-09 00:00:00 +0300
 category: Tech
-image: /tech-blog/assets/image2.jpg
+image: /tech-blog/assets/ThingspeakAccount.png
 comments: true
-tags: [IoT, Thingspeak]
+tags: [IoT, Thingspeak, NodeMCU, DHT22]
 ---
-
-Thingspeak - một trong những nền tảng Internet vạn vật (IoT Platform) cho phép lưu trữ và quản lý dữ liệu IoT.
+Trong bài viết này, chúng ta sẽ tìm hiểu về Thingspeak - một trong những nền tảng Internet vạn vật (IoT Platform) cho phép lưu trữ và quản lý dữ liệu IoT. Các bạn có thể theo dõi video-demo hoặc bài hướng dẫn dưới đây.
 
 <p align="center">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/jfxlOaFn1a8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -17,73 +16,132 @@ Thingspeak - một trong những nền tảng Internet vạn vật (IoT Platform
 # Mục lục
 1. [Giới thiệu](#Section1)
 2. [Thingspeak là gì?](#Section2)
-3. [Thư viện sử dụng cảm biến DHT22](#Section3)
-4. [Kết nối và lập trình](#Section4)
-5. [Kết luận](#Section5)
-6. [Tài liệu tham khảo](#Section6)
+3. [Cài đặt Thingspeak và các trường để lưu dữ liệu cảm biến](#Section3)
+4. [Cài đặt thư viện Thingspeak cho lập trình trên Arduino IDE](#Section4)
+5. [Kết nối và lập trình cho NodeMCU](#Section5)
+6. [Biểu đồ trên Thingspeak](#Section6)
+7. [Kết luận](#Section7)
+8. [Tài liệu tham khảo](#Section8)
 
 ### 1. Giới thiệu <a name="Section1"></a>
-Xin chào các bạn, ở video trước chúng ta đã cùng cài đặt chương trình Arduino  và thư viện để lập trình cho mô-đun NodeMCU với cảm biến DHT22.
-Ở ví dụ trước chúng ta thấy được dữ liệu nhiệt độ và độ ẩm từ cảm biến được in ra màn hình qua "Serial Monitor". Từ đây, một câu hỏi được đặt ra là liệu chúng ta có thể gửi dữ liệu cảm biến tới một server từ xa, để ta có thể theo dõi ở bất cứ đâu qua Internet.
-Ở đây mình có Mô-đun NodeMCU, một mô-đun được phát triển trên WiFi Chip ESP8266 giúp ta có thể kết nối mô-đun tới server từ xa qua WiFi giống như bất kì các thiết bị có hỗ trợ kết nối WiFi khác như Smart Phone, Laptop có thể truy cập Internet qua WiFi.
-Trong video này, chúng ta cùng xem cách kết nối NodeMCU tới Internet qua WiFi và gửi dữ liệu cảm biến (như nhiệt độ và độ ẩm từ DHT22) tới một IoT Platform.
+Hiện nay, số lượng ứng dụng và thiết bị IoT không ngừng tăng. Song song với đó là các hệ thống và nền tảng quản lý thiết bị cũng được đề suất xây dựng và phát triển nhằm quản lý một cách hiệu quả lượng thông tin lớn (Big Data) và một lượng lớn các thiết bị cùng kết nối.
+
+Bài viết này chúng ta sẽ biết được:
+- Thingspeak: tạo kênh và các trường lưu trữ dữ liệu.
+- Cài đặt thư viện Thingspeak cho Arduino IDE.
+- Lập trình cho NodeMCU (ESP8266) gửi dữ liệu cảm biến DHT22 (nhiệt độ và độ ẩm) lên Thingspeak.
 
 ### 2. Thingspeak là gì? <a name="Section2"></a>
    
-IoT Platform là gì? Đó là một nền tảng cho phép các thiết bị IoT kết nối và lưu trữ dữ liệu cảm biến, ngoài ra nền tảng cho phép phát triển các chương trình phân tích xử lý dữ liệu thu thập, cũng như gửi đi các tin nhắn điều khiển dựa trên các logic đã được lập trình.
+**IoT Platform là gì?** Đó là một nền tảng cho phép các thiết bị IoT kết nối và lưu trữ dữ liệu cảm biến, ngoài ra nền tảng cho phép phát triển các chương trình phân tích xử lý dữ liệu thu thập, cũng như gửi đi các tin nhắn điều khiển dựa trên các logic đã được lập trình.
+
+**ThingSpeak** là một IoT Platform cung cấp các dịch vụ cho phép bạn tổng hợp, trực quan hóa và phân tích các luồng dữ liệu trực tiếp trên Cloud. Với việc tích hợp MATLAB bên trong Thingspeak, chúng ta có thể viết code để thực thi tiền xử lý, phân tích, hay vẽ đồ thị dữ liệu. Ngoài ra, trên Thingspeak chúng ta cũng có thể cài đặt thêm các logic cảnh báo hay gửi tin nhắn tới người dùng khi có sự thay đổi bất thường của dữ liệu cảm biến nhận được.
+
+Hình 1 miêu tả cho chúng ta thấy mô hình kết nối đơn giản từ thiết bị tới Thingspeak.
 <p align="center">
   <img alt="Thingspeak" src="/tech-blog/assets/Thingspeak.svg" width=500>
   <br>
-    <em>Hình 1. Mô hình kết nối Thingspeak</em>
+    <em>Hình 1. Mô hình kết nối IoT Platform - Thingspeak</em>
 </p>
 
-Với video này, chúng ta sẽ sử dụng một trong những IoT Platform mã nguồn mở - Thingspeak, đây cũng là một trong những nền tảng được nhiều nhà cung cấp dịch vụ IoT sử dụng hiện nay.
-ThingSpeak là một IoT Platform cung cấp các dịch vụ cho phép bạn tổng hợp, trực quan hóa và phân tích các luồng dữ liệu trực tiếp trên Cloud. Với sự tích hợp MATLAB bên trong Thingspeak, bạn có thể viết code để thực thi tiền xử lý, phân tích, hay vẽ đồ thị dữ liệu.
-Ngoài ra, trên Thingspeak chúng ta cũng có thể cài đặt thêm các logic cảnh báo hay gửi tin nhắn tới người dùng khi có sự thay đổi bất thường của dữ liệu cảm biến nhận được.
-Hình vẽ này miêu tả cho chúng ta thấy mô hình kết nối đơn giản từ thiết bị tới Thingspeak.
+Ở mô hình này chúng ta có thể hiểu như sau:
+- NodeMCU <--> WiFi Router <--> Internet <--> Thingspeak
 
- Mô hình kết nối chúng ta có thể hiểu như sau: (NodeMCU <--> WiFi Router <--> Internet <--> Thingspeak)
 NodeMCU kết nối tới WiFi Router để truy cập Internet, từ đó NodeMCU có thể gửi các gói tin tới Thingspeak.
 Trong video này, chúng ta sẽ gửi thông tin nhiệt độ và độ ẩm thu được lên Cloud.
 
 ### 3. Cài đặt Thingspeak và các trường để lưu dữ liệu cảm biến <a name="Section3"></a>
    
-Bước đầu, các bạn cần tạo một tài khoản trên website thingspeak.com để sử dụng dịch vụ. Các bạn có thể tìm thấy link dưới phần mô tả.
-Trên Thingspeak chúng ta có các kênh hay Channels để quản lý dữ liệu gửi tới. Và các Apps cho phép ta tạo ra các ứng dụng với dữ liệu nhận được trên các kênh.
-Chúng ta sẽ bắt đầu với tạo một kênh kênh mới, và điền các thông tin cơ bản như Tên channel, phần miêu tả project, và tên cho các trường. Các trường ở đây đại diện cho các trường dữ liệu nhận được từ thiết bị của chúng ta.
-Ví dụ như chúng ta sẽ có tên Channel là: Weather Monitoring System
-Với phần miêu tả là: Hệ thống theo dõi thời tiết để thu thập dữ liệu nhiệt độ và độ ẩm từ xa.
-Trong video này, mình sử dụng cảm biến DHT22 để thu thập nhiệt độ và độ ẩm. Do đó, thể điền vào Field 1 với tên là Temperature cho lưu trữ nhiệt độ, Field 2 với tên Humidity cho lưu trữ độ ẩm. Tích vào các trường mà chúng ta muốn sử dụng để thu thập dữ liệu cảm biến.
-Ngoài ra các thông tin khác các bạn có thể tham khảo thêm.
-Cuối cùng, chúng ta nhấn vào "Save Channel" để lưu lại các thông tin cài đặt kênh.
-Tiếp theo, chúng ta sẽ xem các bước chuẩn bị lập trình cho mô-đun NodeMCU.
+Bước đầu, chúng ta sẽ cần tạo một tài khoản trên website [thingspeak.com](https://thingspeak.com/) để sử dụng các dịch vụ. Sau khi đăng nhập, chúng ta nhấn vào **Channels** để chuyển tới màn hình tạo quản lý kênh hoặc bạn có thể vào menu **Channels --> My Channels** (Hình 2).
+<p align="center">
+  <img alt="Thingspeak Account" src="/tech-blog/assets/ThingspeakAccount.png" style="zoom:30%">
+  <br>
+    <em>Hình 2. Thingspeak</em>
+</p>
 
-### 4. Cài đặt thư viện Thingspeak <a name="Section4"></a>
-   
-Để kết nối tới Thingspeak, chúng ta có thể sử dụng thư viện của Thingspeak cung cấp dành cho mô-đun NodeMCU.
-Trở lại với Arduino IDE, chúng ta vào trình quản lý thư viện qua Sketch --> Inlude Library --> Library Manager, sau đó tìm kiếm Thingspeak. Chúng ta sẽ thấy thư viện Thingspeak được phát triển bởi Matworks, nhấn "Install" để tải thư viện về. Sau khi hoàn tất, ta đóng cửa sổ lại.
+Sau đó, chúng ta nhấn vào **New Channel** để tạo một kênh lưu trữ dữ liệu (Hình 3).
+<p align="center">
+  <img alt="New Thingspeak Channel" src="/tech-blog/assets/NewChannel.png" style="zoom:30%">
+  <br>
+    <em>Hình 3. Tạo kênh trên Thingspeak</em>
+</p>
 
-### 5. Viết code cho NodeMCU <a name="Section5"></a>
-   
-Ở đây, mình đã chuẩn bị sẵn 1 ví dụ cho gửi nhiệt độ và độ ẩm lên nền tảng Thingspeak. Để code được chương trình này, chúng ta sẽ cần tham khảo 2 ví dụ, trong đó 1 ví dụ từ thư viện Thingspeak và 1 ví dụ từ thư viện DHT Sensor.
-Trong chương trình này, chúng ta có 2 file -- 1 file chính và 1 file header.
-Trong file chính, các bạn có thể chỉnh sửa DHTPIN và DHTTYPE dựa theo kết nối và loại cản biến được sử dụng.
-Còn trong file secrets.h, chúng ta sẽ chỉnh sửa các thông tin cần thiết, như thông tin kết nối WiFI bao gồm SSID và Password, và thông tin từ Thingspeak mà chúng ta đã tạo như ID của kênh, và WPIKEY để ghi dữ liệu.
+Chúng ta sẽ bắt đầu với tạo một kênh kênh mới, và điền các thông tin cơ bản như Tên channel, phần miêu tả và tên cho các trường (Hình 4). Các trường ở đây đại diện cho các trường dữ liệu nhận được từ thiết bị của chúng ta. Ở đây **Field 1** dành cho dữ liệu **Nhiệt độ**, và **Field 2** cho **Độ ẩm**. Sau khi điền các thông tin cơ bản, chúng ta kéo xuống và nhấn vào **Save Channel** để lưu và khởi tạo kênh.
+<p align="center">
+  <img alt="Thingspeak Channel" src="/tech-blog/assets/ChannelSetting.png" style="zoom:30%">
+  <br>
+    <em>Hình 4. Tạo kênh lưu trữ dữ liệu trên Thingspeak</em>
+</p>
 
-Các bạn có thể xem code của ví này theo link dưới phần mô tả.
-Bây giờ mình sẽ thử Upload chương trình vào mô-đun.
-Sau khi hoàn thành Upload, chúng ta mở Serial Monitor lên để kiểm tra thông tin đưa ra màn hình.
-Như vậy, ở đây chúng ta nhận được dữ liệu nhiệt độ và độ ẩm, và những dữ liệu này được gửi lên Thingspeak.
+Sau khi kênh được tạo, chúng ta có thể thấy 2 biểu độ dữ liệu theo thời gian được tạo ra tương ứng với nhiệt độ và độ ẩm mà chúng ta đã cài đặt cho 2 trường dữ liệu (Hình 5). Chúng ta sẽ cần tới **API Keys** và **Channel ID** để có thể ghi và đọc dữ liệu từ Channel. Chúng ta nhấn vào **API Keys** để xem.
+<p align="center">
+  <img alt="Thingspeak APIKeys" src="/tech-blog/assets/APIKeys.png" style="zoom:40%">
+  <br>
+    <em>Hình 5. Kênh hiển thị Thingspeak</em>
+</p>
 
-### 6. Kiểm tra trên Thingspeak <a name="Section6"></a>
-   
-Trở lại với màn hình Thingspeak, chúng ta sẽ thấy 2 biểu đồ thay đổi dữ liệu tương ứng với dữ liệu đo được từ mô-đun NodeMCU.
-Hi vọng với video này các bạn có thể tạo cho mình một channel để theo dõi nhiệt độ hay độ ẩm trong phòng chẳng hạn.
-Hẹn các bạn ở các video tiếp theo. Bye....!
+Để ghi dữ liệu vào kênh, chúng ta sẽ cần sử dụng **Write API Key** (Hình 6).
+<p align="center">
+  <img alt="Write APIKeys" src="/tech-blog/assets/WriteAPIKeys.png" style="zoom: 30%">
+  <br>
+    <em>Hình 6. API Keys cho ghi và đọc dữ liệu</em>
+</p>
 
-### 7. Tài liệu tham khảo <a name="Section7"></a>
-- Code mẫu: https://github.com/itcomnetworks/IoT-Series
-- Thingspeak: https://thingspeak.com/
-- thingspeak-arduino: https://github.com/mathworks/thingspeak-arduino
-- ESP8266/Arduino: https://github.com/esp8266/Arduino
-- DHT Sensor Lib: https://github.com/adafruit/DHT-sensor-library
+### 4. Cài đặt thư viện Thingspeak cho lập trình trên Arduino IDE<a name="Section4"></a>
+Để đơn giản hoá trong phần lập trình cho NodeMCU kết nối với Thingspeak, chúng ta có thể sử dụng thư viện mà MathWorks phát triển dành cho các nền tảng Arduino để liên kết với Thingspeak. Trở lại với Arduino IDE, chúng ta vào trình quản lý thư viện qua **Sketch --> Inlude Library --> Library Manager**, sau đó tìm kiếm với từ khoá **Thingspeak**. Chúng ta sẽ thấy thư viện **Thingspeak** được phát triển bởi MathWorks, nhấn **Install** để tải thư viện về (Hình 7).
+<p align="center">
+  <img alt="Thingspeak Channel" src="/tech-blog/assets/Thingspeak_Lib.png" style="zoom:50%">
+  <br>
+    <em>Hình 7. Cài đặt thư viện Thingspeak</em>
+</p>
+
+### 5. Kết nối và lập trình cho NodeMCU <a name="Section5"></a>
+Như đã nói ở đầu bài, chúng ta sẽ sử dụng mô-đun NodeMCU và cảm biến DHT22. Chúng ta có thể kết nối DHT22 với NodeMCU theo sơ đồ ở Hình 8.
+<p align="center">
+  <img alt="Library Manager" src="/tech-blog/assets/NodeMCU_DHT.png" style="zoom:50%">
+  <br>
+    <em>Hình 8. Sơ đồ kết nôi NodeMCU với DHT22</em>
+</p>
+
+Như vậy, thư viện cho cảm biến **DHT** cũng được sử dụng. Nếu **DHT Sensor Library** chưa được tải về thì chúng ta có thể vào trình quản lý thư viện qua **Sketch --> Inlude Library --> Library Manager**, sau đó tìm kiếm với từ khoá **DHT Sensor** (Hình 9).
+<p align="center">
+  <img alt="DHT Lib" src="/tech-blog/assets/LibManager.png" style="zoom:50%">
+  <br>
+    <em>Hình 9. Cài đặt thư viện DHT Sensor</em>
+</p>
+
+Các bạn có thể tìm thấy code ví dụ [tại đây - WriteMultipleFieldsSecure](https://github.com/itcomnetworks/IoT-Series/tree/main/WriteMultipleFieldsSecure). Sau khi mở trên Arduino IDE, chúng ta sẽ đi chỉnh sửa các thông tin cần thiết ở file **secrets.h**. Trong file này, chúng ta sẽ cần chỉnh sửa:
+- SECRET_SSID - tên WiFi cho kết nối.
+- SECRET_PASS - mật khẩu WiFi.
+- SECRET_CH_ID - ID của kênh (Hình 5).
+- SECRET_WRITE_APIKEY - API cho phép ghi dữ liệu (Hình 6).
+<p align="center">
+  <img alt="Secret File" src="/tech-blog/assets/SecretKeys.png" style="zoom:50%">
+  <br>
+    <em>Hình 10. Chỉnh sửa thông tin kết nối</em>
+</p>
+
+Sau khi hoàn thành việc chỉnh sửa, chúng ta có thể **Verify** để kiểm tra code, hoặc có thể **Upload** chương trình vào NodeMCU. Chúng ta có thể mở **Serial Monitor** lên để xem các thông tin được **Serial.print** ra màn hình (Hình 11).
+<p align="center">
+  <img alt="Serial Monitor" src="/tech-blog/assets/Thingspeak_SerialMonitor.png" style="zoom:50%">
+  <br>
+    <em>Hình 11. Cửa sổ Serial Monitor</em>
+</p>
+  
+### 6. Biểu đồ trên Thingspeak <a name="Section6"></a>
+Trở lại màn hình Thingspeak với tab **Private View** chúng ta sẽ thấy 2 biểu đồ thay đổi dữ liệu tương ứng với dữ liệu đo được từ cảm biến DHT22.
+<p align="center">
+  <img alt="Graph" src="/tech-blog/assets/Thingspeak_BieuDo.png" style="zoom:50%">
+  <br>
+    <em>Hình 12. Biểu đồ hiển thị dữ liệu cảm biến DHT22</em>
+</p>
+
+### 7. Kết luận <a name="Section7"></a>
+Trong bài viết này, chúng ta đã tìm hiểu cách gửi dữ liệu nhiệt độ và độ ẩm từ cảm biến DHT22 lên nền tảng Thingspeak bằng cách sử dụng mô-đun WiFi NodeMCU. Ngoài ra, trên Thingspeak chúng ta cũng có thể tuỳ chỉnh hiển thị đồ thị dữ liệu và viết các script bằng Matlab cho phân tích dữ liệu thu được.
+
+### 8. Tài liệu tham khảo <a name="Section8"></a>
+- Code mẫu: [https://github.com/itcomnetworks/IoT-Series](https://github.com/itcomnetworks/IoT-Series)
+- Thingspeak: [https://thingspeak.com/](https://thingspeak.com/)
+- thingspeak-arduino: [https://github.com/mathworks/thingspeak-arduino](https://github.com/mathworks/thingspeak-arduino)
+- ESP8266/Arduino: [https://github.com/esp8266/Arduino](https://github.com/esp8266/Arduino)
+- DHT Sensor Library: [https://github.com/adafruit/DHT-sensor-library](https://github.com/adafruit/DHT-sensor-library)

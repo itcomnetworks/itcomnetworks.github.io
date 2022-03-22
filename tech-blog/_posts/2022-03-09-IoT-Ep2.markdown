@@ -100,7 +100,7 @@ Như đã nói ở đầu bài, chúng ta sẽ sử dụng mô-đun NodeMCU và 
 <p align="center">
   <img alt="Library Manager" src="/tech-blog/assets/NodeMCU_DHT.png" style="zoom:50%">
   <br>
-    <em>Hình 8. Sơ đồ kết nôi NodeMCU với DHT22</em>
+    <em>Hình 8. Sơ đồ kết nối NodeMCU với DHT22</em>
 </p>
 
 Như vậy, thư viện cho cảm biến **DHT** cũng được sử dụng. Nếu **DHT Sensor Library** chưa được tải về thì chúng ta có thể vào trình quản lý thư viện qua **Sketch --> Inlude Library --> Library Manager**, sau đó tìm kiếm với từ khoá **DHT Sensor** (Hình 9).
@@ -140,8 +140,8 @@ Trở lại màn hình Thingspeak với tab **Private View** chúng ta sẽ th�
 Trong bài viết này, chúng ta đã tìm hiểu cách gửi dữ liệu nhiệt độ và độ ẩm từ cảm biến DHT22 lên nền tảng Thingspeak bằng cách sử dụng mô-đun WiFi NodeMCU. Ngoài ra, trên Thingspeak chúng ta cũng có thể tuỳ chỉnh hiển thị đồ thị dữ liệu và viết các script bằng Matlab cho phân tích dữ liệu thu được.
 
 ### 8. Tài liệu tham khảo <a name="Section8"></a>
-- Code mẫu: [https://github.com/itcomnetworks/IoT-Series](https://github.com/itcomnetworks/IoT-Series)
-- Thingspeak: [https://thingspeak.com/](https://thingspeak.com/)
-- thingspeak-arduino: [https://github.com/mathworks/thingspeak-arduino](https://github.com/mathworks/thingspeak-arduino)
-- ESP8266/Arduino: [https://github.com/esp8266/Arduino](https://github.com/esp8266/Arduino)
-- DHT Sensor Library: [https://github.com/adafruit/DHT-sensor-library](https://github.com/adafruit/DHT-sensor-library)
+- Code mẫu: [https://github.com/itcomnetworks/IoT-Series](https://github.com/itcomnetworks/IoT-Series){:target="_blank"}
+- Thingspeak: [https://thingspeak.com/](https://thingspeak.com/){:target="_blank"}
+- thingspeak-arduino: [https://github.com/mathworks/thingspeak-arduino](https://github.com/mathworks/thingspeak-arduino){:target="_blank"}
+- ESP8266/Arduino: [https://github.com/esp8266/Arduino](https://github.com/esp8266/Arduino){:target="_blank"}
+- DHT Sensor Library: [https://github.com/adafruit/DHT-sensor-library](https://github.com/adafruit/DHT-sensor-library){:target="_blank"}

@@ -21,7 +21,7 @@
 title: ITComNetworks
 email: itcomnetworks@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Blogging about Info-Telecommunication solutions.
+  Blogging about Info-Telecom solutions.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://itcomnetworks.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: ITComNetworks

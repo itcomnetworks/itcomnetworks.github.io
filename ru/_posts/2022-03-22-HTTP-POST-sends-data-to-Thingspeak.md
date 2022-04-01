@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "IoT-Ep5 | HTTP POST gửi dữ liệu lên Thingspeak"
+title:  "IoT-Ep5 | HTTP POST отправляет данные в Thingspeak"
 date:   2022-03-22 00:00:00 +0300
 category: Tech
 image: /tech-blog/assets/PostRequest.png

@@ -1,0 +1,12 @@
+selectLang:
+  en: "Select Your Language"
+  vi: "Chọn ngôn ngữ của bạn"
+  ru: "Выбрать ваш язык"
+differentLanguage:
+  en: "Read this page in a different language"
+  vi: "Đọc trang này với ngôn ngữ khác"
+  ru: "Читать эту страницу на другом языке"
+viewIn:
+  en: "View in"
+  vi: "Xem trong"
+  ru: "Просмотр в"

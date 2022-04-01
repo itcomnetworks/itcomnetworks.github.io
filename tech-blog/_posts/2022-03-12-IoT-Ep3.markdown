@@ -5,6 +5,8 @@ date:   2022-03-12 00:00:00 +0300
 category: Tech
 image: /tech-blog/assets/ThingspeakAccount.png
 tags: [IoT, Thingspeak]
+lang: vi
+lang-ref: Display and analyze data on Thingspeak
 ---
 Trong bài viết này, chúng ta sẽ tìm hiểu các tính năng điều chỉnh biểu đồ dữ liệu và sử dụng ngôn ngữ Matlab để viết các script xử lý dữ liệu trên Thingspeak. Các bạn có thể theo dõi video-demo hoặc bài hướng dẫn dưới đây.
 
@@ -47,18 +49,18 @@ Tương tự với đồ thị độ ẩm, chúng ta nhận được như Hình 
 <p align="center">
   <img alt="Edit bieu do" src="/tech-blog/assets/DoThi.png" style="zoom:40%">
   <br>
-    <em>Hình 2. Đồ thị nhiệt độ và độ ẩm</em>
+    <em>Hình 3. Đồ thị nhiệt độ và độ ẩm</em>
 </p>
 
 ### 3. Các ứng dụng Apps<a name="Section3"></a>
-Ngoài ra, Thingspeak còn hỗ trợ chúng ta tạo ra các ứng dụng khác nhau (Hình 3).
+Ngoài ra, Thingspeak còn hỗ trợ chúng ta tạo ra các ứng dụng khác nhau (Hình 4).
 <p align="center">
   <img alt="Edit bieu do" src="/tech-blog/assets/ThingspeakApps.png" style="zoom:40%">
   <br>
-    <em>Hình 3. Các Apps được Thingspeak hỗ trợ</em>
+    <em>Hình 4. Các Apps được Thingspeak hỗ trợ</em>
 </p>
 
-Các Apps được Thingspeak chia thành 2 nhóm (Hình 4): Phân tích (Analytics) và Hành động (Actions):
+Các Apps được Thingspeak chia thành 2 nhóm (Hình 5): Phân tích (Analytics) và Hành động (Actions):
 - Nhóm ứng dụng Analytics cho phép ta viết script Matlab để phân tích và vẽ đồ thị, trong nhóm này Thingspeak cũng cho phép tạo ra các plugins được viết với HTML, CSS và Javascript dành cho hiển thị Web.
 - Nhóm Actions cho phép tạo ra các lệnh request giúp ta liên kết với các ứng dụng khác như Twitter, hay chỉ đơn giản là một lệnh HTTP request cho ta điều khiển thiết bị từ xa.
 - Matlab Analysis cho phép chúng ta thực thi code bằng ngôn ngữ Matlab trực tiếp trên Cloud. Sử dụng Matlab, chúng ta có thể phân tích, xử lý dữ liệu cảm biến, và xây dựng các mô hình phân tích dữ liệu. Các script Matlab được liên kết với nhóm Actions, từ đây chúng ta có thể cài tần số script được gọi để thực thi, hoặc được thực thi khi nhận được request.
@@ -71,53 +73,53 @@ Các Apps được Thingspeak chia thành 2 nhóm (Hình 4): Phân tích (Analyt
 <p align="center">
   <img alt="Edit bieu do" src="/tech-blog/assets/ThingspeakApps2.png" style="zoom:50%">
   <br>
-    <em>Hình 4. Nhóm Analytics và Actions</em>
+    <em>Hình 5. Nhóm Analytics và Actions</em>
 </p>
 
-### 4. Tạo biểu đồ phân bố <a name="Section5"></a>
-Trở lại với **private view** của kênh, chúng ta sẽ sử dụng **Matlab Visualization** để vẽ các biểu đồ phân bố nhiệt độ và độ ẩm. Để tạo biểu đồ phân bố, chúng ta sẽ vào phần **Matlab Visualization** (Hình 5) và chọn mẫu code để vẽ histogram (Hình 6).
+### 4. Tạo biểu đồ phân bố <a name="Section4"></a>
+Trở lại với **private view** của kênh, chúng ta sẽ sử dụng **Matlab Visualization** để vẽ các biểu đồ phân bố nhiệt độ và độ ẩm. Để tạo biểu đồ phân bố, chúng ta sẽ vào phần **Matlab Visualization** (Hình 6) và chọn mẫu code để vẽ histogram (Hình 7).
 <p align="center">
   <img alt="Edit bieu do" src="/tech-blog/assets/MatlabVisualization.png" style="zoom:50%">
   <br>
-    <em>Hình 5. Chọn Matlab Visualization</em>
+    <em>Hình 6. Chọn Matlab Visualization</em>
 </p>
 
 <p align="center">
   <img alt="Edit bieu do" src="/tech-blog/assets/MatlabVisualization2.png" style="zoom:40%">
   <br>
-    <em>Hình 6. Tạo biểu đồ phân bố</em>
+    <em>Hình 7. Tạo biểu đồ phân bố</em>
 </p>
 
-Sau khi nhấn chọn **Create**, chúng ta có được cửa sổ viết Matlab Code (Hình 7). Trong script này, chúng ta có thể đặt tên **Phân bố nhiệt độ**, và chúng ta cũng cần tới **Channel ID**, **Read API Key**, **fieldID**. Ở bên phải của màn hình chúng ta có thông tin của **Channel**, để chương trình có thể truy cập truy xuất và lưu trữ dữ liệu. Ngoài ra, trong phần **Display Settings**, chúng ta có thể chọn hiển thị biểu đồ ở kênh nào và hiển thị ở dạng *Public* hoặc *Private*.
+Sau khi nhấn chọn **Create**, chúng ta có được cửa sổ viết Matlab Code (Hình 8). Trong script này, chúng ta có thể đặt tên **Phân bố nhiệt độ**, và chúng ta cũng cần tới **Channel ID**, **Read API Key**, **fieldID**. Ở bên phải của màn hình chúng ta có thông tin của **Channel**, để chương trình có thể truy cập truy xuất và lưu trữ dữ liệu. Ngoài ra, trong phần **Display Settings**, chúng ta có thể chọn hiển thị biểu đồ ở kênh nào và hiển thị ở dạng *Public* hoặc *Private*.
 <p align="center">
   <img alt="Edit bieu do" src="/tech-blog/assets/MatlabVisualization3.png" style="zoom:50%">
   <br>
-    <em>Hình 7. Chỉnh sửa Matlab Code</em>
+    <em>Hình 8. Chỉnh sửa Matlab Code</em>
 </p>
 
-Sau khi nhấn **Save and Rung**, biểu đồ được hiển thị ngay dưới Matlab Code (Hình 8).
+Sau khi nhấn **Save and Rung**, biểu đồ được hiển thị ngay dưới Matlab Code (Hình 9).
 <p align="center">
   <img alt="Edit bieu do" src="/tech-blog/assets/MatlabVisualization4.png" style="zoom:30%">
   <br>
-    <em>Hình 8. Chạy Matlab Code</em>
+    <em>Hình 9. Chạy Matlab Code</em>
 </p>
 
-### 5. Thêm đồng hồ đo
-Tiếp theo, để tạo đồng hồ hiển thị nhiệt độ, chúng ta có thể thêm bằng cách vào phần **Add Widgets**, và chọn mẫu hiển thị đồng hồ **Gauge** (Hình 9-11).
+### 5. Thêm đồng hồ đo <a name="Section5"></a>
+Tiếp theo, để tạo đồng hồ hiển thị nhiệt độ, chúng ta có thể thêm bằng cách vào phần **Add Widgets**, và chọn mẫu hiển thị đồng hồ **Gauge** (Hình 10-12).
 <p align="center">
   <img alt="Edit bieu do" src="/tech-blog/assets/MatlabVisualization5.png" style="zoom:30%">
   <br>
-    <em>Hình 9. Thêm Widgets</em>
+    <em>Hình 10. Thêm Widgets</em>
 </p>
 <p align="center">
   <img alt="Edit bieu do" src="/tech-blog/assets/MatlabVisualization6.png" style="zoom:30%">
   <br>
-    <em>Hình 10. Tạo đồng hồ Gauge</em>
+    <em>Hình 11. Tạo đồng hồ Gauge</em>
 </p>
 <p align="center">
   <img alt="Edit bieu do" src="/tech-blog/assets/MatlabVisualization7.png" style="zoom:30%">
   <br>
-    <em>Hình 11. Tuỳ chỉnh Widgets</em>
+    <em>Hình 12. Tuỳ chỉnh Widgets</em>
 </p>
 
 Tới đây, **Private view** sẽ cho chúng ta thấy được biểu đồ phân bố và đồng hồ cho giá trị nhiệt độ (Hình 12).
@@ -127,7 +129,7 @@ Tới đây, **Private view** sẽ cho chúng ta thấy được biểu đồ ph
     <em>Hình 12. Biểu đồ phân bố và đồng hồ nhiệt độ</em>
 </p>
 
-### 6. Kết luận
+### 6. Kết luận <a name="Section6"></a>
 Có thể thấy rằng, việc sử dụng Matlab giúp chúng ta dễ dàng tuỳ biến trong việc phân tích và xử lý dữ liệu, cũng như vẽ các đồ thị dữ liệu.
 Hiện nay, Matlab là một trong những nền tảng và ngôn ngữ phổ biến cho các ứng dụng tính toán, và được sử dụng trong nhiều lĩnh vực khác nhau. Ngoài ra, sử dụng Matlab cũng cho phép tạo ra có mô hình học máy hay mạng nơ-ron để dự đoán sự thay đổi của dữ liệu trong tương lai.
 Hơn nữa, chúng ta cũng có thể thấy rằng việc vẽ và tuỳ biến đồ thị cũng được hỗ trợ dễ dàng trên Thingspeak, và cho phép tích hợp vào trang web khác một cách dễ dàng.

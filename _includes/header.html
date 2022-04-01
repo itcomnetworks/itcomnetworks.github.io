@@ -10,7 +10,7 @@
     <!--Custom: add title or title-logo-->
     <a class="site-title" rel="author" href="{{ "/" | relative_url }}">
       {%- if site.title-logo -%}
-      <img src="{{ site.title-logo | relative_url }}" alt="{{ site.title | escape }}" style="width:300px">
+      <img src="{{ site.title-logo | relative_url }}" alt="{{ site.title | escape }}" style="width:100px">
       {%- else -%}
         {{ site.title | escape }}
       {%- endif -%}
@@ -29,12 +29,29 @@
 
         <div class="trigger">
           {%- for path in page_paths -%}
-            {%- assign my_page = site.pages | where: "path", path | first -%}
+            {%- assign my_page = site.pages | where:"lang", page.lang | where: "path", path | first -%}
             {%- if my_page.title -%}
             <a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
             {%- endif -%}
           {%- endfor -%}
         </div>
+
+        {% if page.layout != 'index' %}
+        {% assign posts=site.posts | where:"lang-ref", page.lang-ref | sort: 'lang' %}
+        {% if posts.size == 0 %}
+            {% assign posts=site.pages | where:"lang-ref", page.lang-ref | sort: 'lang' %}
+        {% endif %}
+        {% if posts.size > 1 %}
+        <div class="lang-options">
+            <ul>
+            {% for post in posts %}
+            <li><a title="{{ site.data.translations['viewIn'][page.lang] }} {{ site.data.languages[post.lang].label }}" class="{{post.lang}}" href="{{ site.base-url }}{{ post.url }}">{{ site.data.languages[post.lang].icon }} {{ site.data.languages[post.lang].label }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+  {% endif %}
+
       </nav>
     {%- endif -%}
   </div>

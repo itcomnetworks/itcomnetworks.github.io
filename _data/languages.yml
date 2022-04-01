@@ -1,0 +1,9 @@
+vi:
+  label: Tiếng Việt
+  icon: 🇻🇳
+en:
+  label: English
+  icon: 🇺🇸
+ru:
+  label: Русский
+  icon: 🇷🇺

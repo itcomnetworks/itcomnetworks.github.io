@@ -4,4 +4,6 @@
 
 layout: home
 list_title: Tất cả bài viết
+lang: vi
+lang-ref: index
 ---

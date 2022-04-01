@@ -266,3 +266,18 @@
   object-fit: cover;
   float: left;
 }
+
+.lang-options {
+  margin: auto;
+}
+
+.lang-options ul {
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.lang-options ul > li {
+  list-style: none;
+  display: inline-block;
+  margin-right: 1em;
+}

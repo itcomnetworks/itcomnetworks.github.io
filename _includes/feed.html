@@ -1,5 +1,6 @@
 <section class="feed">
-    {%- for post in site.posts -%}
+  {% assign posts=site.posts | where:"lang", page.lang %}
+    {%- for post in posts -%}
     {%- if post.category=="Tech" -%}
       <div class="feed-card">
         <div class="card-image">

@@ -6,6 +6,8 @@ category: Tech
 image: /tech-blog/assets/ThingspeakAccount.png
 comments: true
 tags: [IoT, Thingspeak, NodeMCU, DHT22]
+lang: vi
+lang-ref: Sending sensor data to Thingspeak
 ---
 Trong bài viết này, chúng ta sẽ tìm hiểu về Thingspeak - một trong những nền tảng Internet vạn vật (IoT Platform) cho phép lưu trữ và quản lý dữ liệu IoT. Các bạn có thể theo dõi video-demo hoặc bài hướng dẫn dưới đây.
 
@@ -48,7 +50,7 @@ Hình 1 miêu tả cho chúng ta thấy mô hình kết nối đơn giản từ 
 - NodeMCU <--> WiFi Router <--> Internet <--> Thingspeak
 
 NodeMCU kết nối tới WiFi Router để truy cập Internet, từ đó NodeMCU có thể gửi các gói tin tới Thingspeak.
-Trong video này, chúng ta sẽ gửi thông tin nhiệt độ và độ ẩm thu được lên Cloud.
+Trong bài viết này, chúng ta sẽ gửi thông tin nhiệt độ và độ ẩm thu được lên Cloud.
 
 ### 3. Cài đặt Thingspeak và các trường để lưu dữ liệu cảm biến <a name="Section3"></a>
    

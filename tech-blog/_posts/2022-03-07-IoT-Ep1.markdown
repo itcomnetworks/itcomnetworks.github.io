@@ -6,6 +6,8 @@ category: Tech
 image: /tech-blog/assets/industry-2630319_1280.jpg
 comments: true
 tags: [IoT, NodeMCU, DHT22, Arduino]
+lang: vi
+lang-ref: IoT-Ep1 | NodeMCU+DHT22 read temperature and humidity
 ---
 Trong bài viết này, chúng ta làm quen với mô-đun NodeMCU và cảm biến DHT22 cho đọc nhiệt độ và độ ẩm. Các bạn có thể theo dõi video-demo hoặc bài hướng dẫn dưới đây.
 
@@ -94,7 +96,7 @@ Cảm biến DHT22 (Hình 7) có thể kết nối tới NodeMCU theo như Hình
 <p align="center">
   <img alt="Library Manager" src="/tech-blog/assets/NodeMCU_DHT.png" style="zoom:50%">
   <br>
-    <em>Hình 8. Sơ đồ kết nôi NodeMCU với DHT22</em>
+    <em>Hình 8. Sơ đồ kết nối NodeMCU với DHT22</em>
 </p>
 
 Trở lại cửa sổ chương trình Arduino IDE, chúng ta có thể mở 1 ví dụ trong thư viện được tải về. Chúng ta nhấn vào **File --> Examples --> DHT Sensor library --> DHTtester** (Hình 9). Chúng ta sẽ sử dụng ví dụ này để kiếm tra dữ liệu cảm biến.

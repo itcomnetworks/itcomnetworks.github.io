@@ -9,4 +9,15 @@
     {%- include google-analytics.html -%}
   {%- endif -%}
   <link rel="icon" href="/images/Logo_Icon_v3.png" type="image/x-icon" />
+
+  {% assign posts=site.posts | where:"lang-ref", page.lang-ref | sort: 'lang' %}
+  {% if posts.size == 0 %}
+    {% assign posts=site.pages | where:"lang-ref", page.lang-ref | sort: 'lang' %}
+  {% endif %}
+  {% if posts.size > 0 %}
+    {% for post in posts %}
+  <link rel="alternate" hreflang="{{post.lang}}" href="{{ site.base-url }}{{ post.url }}" />
+    {% endfor %}
+  {% endif %}
+
 </head>

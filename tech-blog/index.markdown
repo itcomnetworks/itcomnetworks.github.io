@@ -3,7 +3,9 @@
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
 layout: home-tech
-title: "Tech Blog"
+title: "Tutorial"
 category: Tech
 feed-type: tech
+lang: vi
+lang-ref: tech-index
 ---

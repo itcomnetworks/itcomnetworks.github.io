@@ -2,6 +2,8 @@
 layout: page
 title: About
 permalink: /about/
+lang: vi
+lang-ref: about
 ---
 Xin chào các bạn!
 

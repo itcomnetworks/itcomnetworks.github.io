@@ -132,7 +132,7 @@ lang-ref: IoT-Ep1 | NodeMCU+DHT22 read temperature and humidity
 
 Исходя из этого примера, мы можем развивать дальше, например, отправлять полученные данные в **Облако**, к которым мы можем получить доступ и контролировать удаленно через Интернет. Например, сейчас существует множество вычислительных платформ, таких как Thingspeak, Dashboards, MS Azure, Amazon Web Service, которые поддерживают управление и хранение данных с устройств Интернета вещей.
 
-### 6. Допольнительные источники <a name="Section6"></a>
+### 6. Дополнительные источники <a name="Section6"></a>
 - Arduino IDE: [https://www.arduino.cc/](https://www.arduino.cc/){:target="_blank"}{:target="_blank"}
 - ESP8266-Arduino: [https://github.com/esp8266/Arduino](https://github.com/esp8266/Arduino){:target="_blank"}{:target="_blank"}
 - DHT Sensor Library: [https://github.com/adafruit/DHT-sensor-library](https://github.com/adafruit/DHT-sensor-library){:target="_blank"}{:target="_blank"}
